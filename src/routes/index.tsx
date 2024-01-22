@@ -5,7 +5,7 @@ export const RotasDoApp = () => {
 
     return(
         <Routes>
-            <Route path="/pagina-inicial" element={<Button>Testeee</Button>}/>
+            <Route path="/pagina-inicial" element={<Button variant="contained" color="primary">Teste</Button>}/>
             <Route path="*" element={<Navigate to="/pagina-inicial"/>}/>
         </Routes>
     )
