@@ -1,12 +1,17 @@
 import { BrowserRouter } from 'react-router-dom';
 import { RotasDoApp } from './routes';
 import { AppThemeProvider } from './shared/contexts';
+import { MenuLateral } from './shared/components';
 
 export const App = () => {
   return (
     <AppThemeProvider>
       <BrowserRouter>
-        <RotasDoApp />
+
+        <MenuLateral>
+          <RotasDoApp />
+        </MenuLateral>
+        
       </BrowserRouter>
     </AppThemeProvider>
   );
