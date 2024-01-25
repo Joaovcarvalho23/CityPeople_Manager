@@ -1,18 +1,55 @@
-import { Box, Divider, Drawer, List, ListItemButton, ListItemIcon, ListItemText, useMediaQuery, useTheme, } from '@mui/material';
+import { Box, Divider, Drawer, Icon, List, ListItemButton, ListItemIcon, ListItemText, useMediaQuery, useTheme, } from '@mui/material';
 import React from 'react';
 import Avatar from '@mui/material/Avatar';
-import { Home } from '@mui/icons-material';
-import { useDrawerContext } from '../../contexts';
+import { useDrawerContext,  } from '../../contexts';
+import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
+
+interface IListItemLinkProps {
+  label: string;
+  icon: string;
+  to: string; //vai ser a rota do react router DOM para a tela que queremos navegar
+  onClick: (() => void) | undefined; 
+  /*
+  essa função vai servir para quando tivermos com o menu temporário e clicarmos numa opção do menu, nós 
+  vamos querer fechar o nosso menu lateral, pois ele é temporário e vai estar aberto, daí nós fechamos 
+  ele e navegamos para outra rota. Por padrão, ele não fecha sozinho. Sendo assim, precisamso ter que 
+  dizer para ele fechar o menu lateral. Para isso, configuramos o onClick
+  */
+} 
 
 interface IMenuLateralProps {
     children: React.ReactNode
 }
 
+const ListItemlink:React.FC<IListItemLinkProps> = ({ to, icon, label, onClick }) =>{
+
+  const navegar = useNavigate();
+
+  const resolvedPath = useResolvedPath(to);
+
+  const match = useMatch({ path: resolvedPath.pathname, end: false  });
+
+  const handleClick = () => {
+    navegar(to);
+    onClick?.(); //essa função é undefined? Se sim, não faz nada. Se não, executa
+  }; //estamos fazendo isso pois queremos que, quando o usuário clique na opção de menu, ele navegue para uma outra tela. Para isso, usamos o react-router-dom. 
+
+  return(
+    <ListItemButton selected={!!match} onClick={handleClick}>
+      <ListItemIcon>
+        <Icon>{icon}</Icon>
+      </ListItemIcon>
+      <ListItemText primary={label} />
+    </ListItemButton>
+  );
+};
+
+
 export const MenuLateral: React.FC<IMenuLateralProps> = ({ children }) => {
   const theme = useTheme();
   const smDown = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const { isDrawerOpen, toggleDrawerOpen } = useDrawerContext();
+  const { isDrawerOpen, toggleDrawerOpen, drawerOptions } = useDrawerContext();
 
   return(
     <>
@@ -29,12 +66,15 @@ export const MenuLateral: React.FC<IMenuLateralProps> = ({ children }) => {
 
           <Box flex={1}>
             <List component="nav">
-              <ListItemButton>
-                <ListItemIcon>
-                  <Home/>
-                </ListItemIcon>
-                <ListItemText primary="Página inicial" />
-              </ListItemButton>
+              {drawerOptions.map(drawerOption => (
+                <ListItemlink
+                  key={drawerOption.path}
+                  icon={drawerOption.icon}
+                  to={drawerOption.path}
+                  label={drawerOption.label}
+                  onClick={smDown ? toggleDrawerOpen : undefined}
+                />
+              ))}
             </List>
           </Box>
 
