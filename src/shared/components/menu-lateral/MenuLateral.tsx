@@ -1,8 +1,9 @@
 import { Box, Divider, Drawer, Icon, List, ListItemButton, ListItemIcon, ListItemText, useMediaQuery, useTheme, } from '@mui/material';
 import React from 'react';
 import Avatar from '@mui/material/Avatar';
-import { useDrawerContext,  } from '../../contexts';
+import { useAppThemeContext, useDrawerContext,  } from '../../contexts';
 import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
+import { DarkMode } from '@mui/icons-material';
 
 interface IListItemLinkProps {
   label: string;
@@ -48,8 +49,8 @@ const ListItemlink:React.FC<IListItemLinkProps> = ({ to, icon, label, onClick })
 export const MenuLateral: React.FC<IMenuLateralProps> = ({ children }) => {
   const theme = useTheme();
   const smDown = useMediaQuery(theme.breakpoints.down('sm'));
-
   const { isDrawerOpen, toggleDrawerOpen, drawerOptions } = useDrawerContext();
+  const { toggleTheme } = useAppThemeContext();
 
   return(
     <>
@@ -64,6 +65,7 @@ export const MenuLateral: React.FC<IMenuLateralProps> = ({ children }) => {
 
           <Divider />
 
+          
           <Box flex={1}>
             <List component="nav">
               {drawerOptions.map(drawerOption => (
@@ -78,6 +80,16 @@ export const MenuLateral: React.FC<IMenuLateralProps> = ({ children }) => {
             </List>
           </Box>
 
+          <Box>
+            <List component="nav">
+              <ListItemButton onClick={toggleTheme}>
+                <ListItemIcon>
+                  <DarkMode/>
+                </ListItemIcon>
+                <ListItemText primary= "Alterar tema" />
+              </ListItemButton>
+            </List>
+          </Box>
         </Box>
       </Drawer>
 
