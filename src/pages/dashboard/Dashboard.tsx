@@ -1,9 +1,9 @@
-import { LayoutBaseDaPagina } from '../../shared/layouts';
+import { PageBaseLayout } from '../../shared/layouts';
 
 export const Dashboard = () => {
   return(
-    <LayoutBaseDaPagina titulo='Página inicial' barraDeFerramentas={<>Barra de ferramentas</>}>
-        Testando
-    </LayoutBaseDaPagina>
+    <PageBaseLayout tittle='Home Page' toolsBar={<>Tools bar</>}>
+        Testing
+    </PageBaseLayout>
   );
 };

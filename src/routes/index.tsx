@@ -4,24 +4,24 @@ import { useDrawerContext } from '../shared/contexts';
 import { useEffect } from 'react';
 import { Dashboard } from '../pages';
 
-export const RotasDoApp = () => {
+export const AppRoutes = () => {
   const { setDrawerOptions } = useDrawerContext();
 
   useEffect(() => {
     setDrawerOptions([
       {
         icon: 'home',
-        path: '/pagina-inicial',
-        label: 'Página Inicial'
+        path: '/home-page',
+        label: 'Home page'
       }
     ]);
   },[]);
 
   return(
     <Routes>
-      <Route path="/pagina-inicial" element={<Dashboard />} />
+      <Route path="/home-page" element={<Dashboard />} />
            
-      <Route path="*" element={<Navigate to="/pagina-inicial"/>}/>
+      <Route path="*" element={<Navigate to="/home-page"/>}/>
     </Routes>
   );
 

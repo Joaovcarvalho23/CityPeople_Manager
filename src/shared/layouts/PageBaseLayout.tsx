@@ -3,13 +3,13 @@ import { Box, IconButton, Typography, useMediaQuery, useTheme } from '@mui/mater
 import React, { ReactNode } from 'react';
 import { useDrawerContext } from '../contexts';
 
-interface ILayoutBaseDaPaginaProps {
+interface IPageBaseLayoutProps {
     children: React.ReactNode
-    titulo: string
-    barraDeFerramentas?: ReactNode
+    tittle: string
+    toolsBar?: ReactNode
 }
 
-export const LayoutBaseDaPagina: React.FC<ILayoutBaseDaPaginaProps> = ({ children, titulo, barraDeFerramentas }) => {
+export const PageBaseLayout: React.FC<IPageBaseLayoutProps> = ({ children, tittle, toolsBar }) => {
   const tema = useTheme();
   const smDown = useMediaQuery(tema.breakpoints.down('sm'));
   const mdDown = useMediaQuery(tema.breakpoints.down('md'));
@@ -31,13 +31,13 @@ export const LayoutBaseDaPagina: React.FC<ILayoutBaseDaPaginaProps> = ({ childre
           textOverflow="ellipsis"
           variant={smDown ? 'h5' : mdDown? 'h4' : 'h3'}
         >
-          {titulo}
+          {tittle}
         </Typography>
       </Box>
 
-      {barraDeFerramentas && (
+      {toolsBar && (
         <Box>
-          {barraDeFerramentas}
+          {toolsBar}
         </Box>
       )}
 

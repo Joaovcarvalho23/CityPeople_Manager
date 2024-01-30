@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
-import { TemaEscuro, TemaClaro } from '../themes';
+import { DarkTheme, LightTheme } from '../themes';
 import { Box, ThemeProvider } from '@mui/material';
 
 interface IThemeContext {
@@ -29,11 +29,11 @@ export const AppThemeProvider: React.FC<IAppThemeProviderProps> = ({ children })
 
   const theme = useMemo(() => {
 
-    if (themeName === 'light') return TemaClaro;
-    return TemaEscuro;
+    if (themeName === 'light') return LightTheme;
+    return DarkTheme;
 
   }, [themeName]); //o useMemo serve para armazenar valores
-    //toda vez que o nome do tema for alterado na linha do 'const [themeName, setThemeName] = useState<'light' | 'dark'>('light');', esta função vai ser executada e o novo valor vai estar dentro do 'theme', uma hora pode ser TemaClaro e depois TemaEscuro
+    //toda vez que o nome do tema for alterado na linha do 'const [themeName, setThemeName] = useState<'light' | 'dark'>('light');', esta função vai ser executada e o novo valor vai estar dentro do 'theme', uma hora pode ser LightTheme e depois DarkTheme
     
   return(
     <ThemeContext.Provider value={{ themeName, toggleTheme }}>

@@ -1,7 +1,7 @@
 import { createTheme } from '@mui/material';
 import { cyan, yellow } from '@mui/material/colors';
 
-export const TemaEscuro = createTheme({
+export const DarkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
