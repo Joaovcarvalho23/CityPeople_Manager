@@ -6,7 +6,27 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UndoIcon from '@mui/icons-material/Undo';
 
-export const DetailTools: React.FC = () => {
+interface IDetailToolsProps {
+  newButtonText?: string
+  showNewButton?: boolean
+  showBackButton?: boolean
+  showSaveButton?: boolean
+  showDeleteButton?: boolean
+  showSaveAndExitButton?: boolean
+
+  whenNewIsPressed?: () => void;
+  whenBackIsPressed?: () => void;
+  whenSaveIsPressed?: () => void;
+  whenDeleteIsPressed?: () => void;
+  whenSaveAndExitIsPressed?: () => void;
+}
+
+export const DetailTools: React.FC<IDetailToolsProps> = ({ 
+  newButtonText= 'New', showNewButton = true, showBackButton = true, showDeleteButton = true, showSaveButton = true, showSaveAndExitButton = false,
+
+  whenNewIsPressed, whenBackIsPressed, whenSaveIsPressed, whenDeleteIsPressed, whenSaveAndExitIsPressed
+
+}) => {
   const theme = useTheme();
 
   return(
@@ -20,39 +40,59 @@ export const DetailTools: React.FC = () => {
       alignItems="center"
       component={Paper}
     >
-      <Button
-        color='success' variant='contained'
-        disableElevation endIcon={<SaveIcon/>}
-      >
+      {showSaveButton && (
+        <Button
+          color='success' variant='contained'
+          disableElevation endIcon={<SaveIcon/>}
+          onClick={whenSaveIsPressed}
+        >
         Save
-      </Button>
-      <Button
-        color='success' variant='outlined'
-        disableElevation endIcon={<AddIcon/>}
-      >
-        New
-      </Button>
-      <Button
-        color='success' variant='outlined'
-        disableElevation endIcon={<ExitToAppIcon/>}
-      >
-        Save and Exit
-      </Button>
-      <Button
-        color='success' variant='outlined'
-        disableElevation endIcon={<DeleteIcon/>}
-      >
-        Delete
-      </Button>
+        </Button>
+      )}
 
+      {showNewButton && (
+        <Button
+          color='success' variant='outlined'
+          disableElevation endIcon={<AddIcon/>}
+          onClick={whenNewIsPressed}
+        >
+          {newButtonText}
+        </Button>
+      )}
+
+
+      {showDeleteButton && (
+        <Button
+          color='success' variant='outlined'
+          disableElevation endIcon={<DeleteIcon/>}
+          onClick={whenDeleteIsPressed}
+        >
+        Delete
+        </Button>
+      )}
+
+      {showSaveAndExitButton && (
+        <Button
+          color='success' variant='outlined'
+          disableElevation endIcon={<ExitToAppIcon/>}
+          onClick={whenSaveAndExitIsPressed}
+        >
+        Save and Exit
+        </Button>
+      )}
+      
       <Divider variant='middle'/>
 
-      <Button
-        color='success' variant='outlined'
-        disableElevation endIcon={<UndoIcon/>}
-      >
+      {showBackButton && (
+        <Button
+          color='success' variant='outlined'
+          disableElevation endIcon={<UndoIcon/>}
+          onClick={whenBackIsPressed}
+        >
         Back
-      </Button>
+        </Button>
+      )}
+
     </Box>
   );
 };

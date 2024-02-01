@@ -6,7 +6,7 @@ export const Dashboard = () => {
     <PageBaseLayout 
       tittle='Home Page'
       toolsBar={(
-        <DetailTools/>
+        <DetailTools showSaveAndExitButton/>
       )}>
         Testing
     </PageBaseLayout>
