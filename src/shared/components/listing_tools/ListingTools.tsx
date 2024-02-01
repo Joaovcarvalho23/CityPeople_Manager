@@ -2,7 +2,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { Box, Button, Paper, TextField, useTheme } from '@mui/material';
 import React from 'react';
 
-interface IToolsBarProps {
+interface IListingToolsProps {
   searchText?: string
   showSearchInput?: boolean
   onChangeSearchText?: (newText: string) => void;
@@ -12,7 +12,7 @@ interface IToolsBarProps {
   onPressedNewButton?: () => void;
 }
 
-export const ToolsBar: React.FC<IToolsBarProps> = ({ searchText = '', showSearchInput = false, onChangeSearchText, newButtonText= 'New', showNewButton= true, onPressedNewButton }) => {
+export const ListingTools: React.FC<IListingToolsProps> = ({ searchText = '', showSearchInput = false, onChangeSearchText, newButtonText= 'New', showNewButton= true, onPressedNewButton }) => {
   const theme = useTheme();
 
   return(
