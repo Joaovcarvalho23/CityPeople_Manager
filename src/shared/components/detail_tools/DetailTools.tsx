@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Paper, useTheme } from '@mui/material';
+import { Box, Button, Divider, Paper, Skeleton, useTheme } from '@mui/material';
 import React from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import SaveIcon from '@mui/icons-material/Save';
@@ -14,6 +14,12 @@ interface IDetailToolsProps {
   showDeleteButton?: boolean
   showSaveAndExitButton?: boolean
 
+  showLoadingNewButton?: boolean
+  showLoadingBackButton?: boolean
+  showLoadingSaveButton?: boolean
+  showLoadingDeleteButton?: boolean
+  showLoadingSaveAndExitButton?: boolean
+
   whenNewIsPressed?: () => void;
   whenBackIsPressed?: () => void;
   whenSaveIsPressed?: () => void;
@@ -22,7 +28,13 @@ interface IDetailToolsProps {
 }
 
 export const DetailTools: React.FC<IDetailToolsProps> = ({ 
-  newButtonText= 'New', showNewButton = true, showBackButton = true, showDeleteButton = true, showSaveButton = true, showSaveAndExitButton = false,
+  newButtonText= 'New', showNewButton = true, showBackButton = true,
+  showDeleteButton = true, showSaveButton = true,
+  showSaveAndExitButton = false,
+
+  showLoadingNewButton = false, showLoadingBackButton = false,
+  showLoadingDeleteButton = false, showLoadingSaveButton = false,
+  showLoadingSaveAndExitButton = false,
 
   whenNewIsPressed, whenBackIsPressed, whenSaveIsPressed, whenDeleteIsPressed, whenSaveAndExitIsPressed
 
@@ -40,7 +52,7 @@ export const DetailTools: React.FC<IDetailToolsProps> = ({
       alignItems="center"
       component={Paper}
     >
-      {showSaveButton && (
+      {(showSaveButton && !showLoadingSaveButton) && (
         <Button
           color='success' variant='contained'
           disableElevation endIcon={<SaveIcon/>}
@@ -50,7 +62,11 @@ export const DetailTools: React.FC<IDetailToolsProps> = ({
         </Button>
       )}
 
-      {showNewButton && (
+      {showLoadingSaveButton && (
+        <Skeleton width={100} height={64}/>
+      )}
+
+      {(showNewButton && !showLoadingNewButton) && (
         <Button
           color='success' variant='outlined'
           disableElevation endIcon={<AddIcon/>}
@@ -60,8 +76,12 @@ export const DetailTools: React.FC<IDetailToolsProps> = ({
         </Button>
       )}
 
+      {showLoadingNewButton && (
+        <Skeleton width={100} height={64}/>
+      )}
 
-      {showDeleteButton && (
+
+      {(showDeleteButton && !showLoadingDeleteButton) && (
         <Button
           color='success' variant='outlined'
           disableElevation endIcon={<DeleteIcon/>}
@@ -71,7 +91,11 @@ export const DetailTools: React.FC<IDetailToolsProps> = ({
         </Button>
       )}
 
-      {showSaveAndExitButton && (
+      {showLoadingDeleteButton && (
+        <Skeleton width={100} height={64}/>
+      )}
+
+      {(showSaveAndExitButton && !showLoadingSaveAndExitButton) && (
         <Button
           color='success' variant='outlined'
           disableElevation endIcon={<ExitToAppIcon/>}
@@ -80,10 +104,14 @@ export const DetailTools: React.FC<IDetailToolsProps> = ({
         Save and Exit
         </Button>
       )}
+
+      {showLoadingSaveAndExitButton && (
+        <Skeleton width={100} height={64}/>
+      )}
       
       <Divider variant='middle'/>
 
-      {showBackButton && (
+      {(showBackButton && !showLoadingBackButton) && (
         <Button
           color='success' variant='outlined'
           disableElevation endIcon={<UndoIcon/>}
@@ -91,6 +119,10 @@ export const DetailTools: React.FC<IDetailToolsProps> = ({
         >
         Back
         </Button>
+      )}
+
+      {showLoadingBackButton && (
+        <Skeleton width={100} height={64}/>
       )}
 
     </Box>
