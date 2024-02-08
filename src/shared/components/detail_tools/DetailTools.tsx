@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Paper, Skeleton, useTheme } from '@mui/material';
+import { Box, Button, Divider, Paper, Skeleton, Typography, useMediaQuery, useTheme } from '@mui/material';
 import React from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import SaveIcon from '@mui/icons-material/Save';
@@ -40,6 +40,8 @@ export const DetailTools: React.FC<IDetailToolsProps> = ({
 
 }) => {
   const theme = useTheme();
+  const smDown = useMediaQuery(theme.breakpoints.down('sm'));
+  const mdDown = useMediaQuery(theme.breakpoints.down('md'));
 
   return(
     <Box 
@@ -58,7 +60,10 @@ export const DetailTools: React.FC<IDetailToolsProps> = ({
           disableElevation endIcon={<SaveIcon/>}
           onClick={whenSaveIsPressed}
         >
-        Save
+          <Typography variant='button' whiteSpace="nowrap" overflow='hidden'>
+            Save
+          </Typography>
+
         </Button>
       )}
 
@@ -66,17 +71,20 @@ export const DetailTools: React.FC<IDetailToolsProps> = ({
         <Skeleton width={100} height={64}/>
       )}
 
-      {(showNewButton && !showLoadingNewButton) && (
+      {(showNewButton && !showLoadingNewButton && !smDown) && (
         <Button
           color='success' variant='outlined'
           disableElevation endIcon={<AddIcon/>}
           onClick={whenNewIsPressed}
         >
-          {newButtonText}
+          <Typography variant='button' whiteSpace="nowrap" overflow='hidden'>
+            {newButtonText}
+          </Typography>
+
         </Button>
       )}
 
-      {showLoadingNewButton && (
+      {(showLoadingNewButton && !smDown) && (
         <Skeleton width={100} height={64}/>
       )}
 
@@ -87,7 +95,10 @@ export const DetailTools: React.FC<IDetailToolsProps> = ({
           disableElevation endIcon={<DeleteIcon/>}
           onClick={whenDeleteIsPressed}
         >
-        Delete
+          <Typography variant='button' whiteSpace="nowrap" overflow='hidden'>
+            Delete
+          </Typography>
+
         </Button>
       )}
 
@@ -95,21 +106,30 @@ export const DetailTools: React.FC<IDetailToolsProps> = ({
         <Skeleton width={100} height={64}/>
       )}
 
-      {(showSaveAndExitButton && !showLoadingSaveAndExitButton) && (
+      {(showSaveAndExitButton && !showLoadingSaveAndExitButton && !smDown && !mdDown) && (
         <Button
           color='success' variant='outlined'
           disableElevation endIcon={<ExitToAppIcon/>}
           onClick={whenSaveAndExitIsPressed}
         >
-        Save and Exit
+          <Typography variant='button' whiteSpace="nowrap" overflow='hidden'>
+            Save and Exit
+          </Typography>
+
         </Button>
       )}
 
-      {showLoadingSaveAndExitButton && (
+      {(showLoadingSaveAndExitButton  && !smDown && !mdDown) && (
         <Skeleton width={100} height={64}/>
       )}
       
-      <Divider variant='middle'/>
+      {
+        (   
+          showBackButton && (showNewButton || showDeleteButton || showSaveButton || showSaveAndExitButton) && (
+            <Divider variant='middle'/>
+          )
+        )
+      }
 
       {(showBackButton && !showLoadingBackButton) && (
         <Button
@@ -117,7 +137,10 @@ export const DetailTools: React.FC<IDetailToolsProps> = ({
           disableElevation endIcon={<UndoIcon/>}
           onClick={whenBackIsPressed}
         >
-        Back
+          <Typography variant='button' whiteSpace="nowrap" overflow='hidden'>
+            Back
+          </Typography>
+
         </Button>
       )}
 
