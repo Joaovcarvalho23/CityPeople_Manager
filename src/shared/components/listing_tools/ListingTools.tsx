@@ -1,6 +1,7 @@
 import AddIcon from '@mui/icons-material/Add';
 import { Box, Button, Paper, TextField, useTheme } from '@mui/material';
 import React from 'react';
+import { Environment } from '../../environment';
 
 interface IListingToolsProps {
   searchText?: string
@@ -28,7 +29,7 @@ export const ListingTools: React.FC<IListingToolsProps> = ({ searchText = '', sh
     >
       {showSearchInput && (
         <TextField 
-          size='small' placeholder='Search...'
+          size='small' placeholder={Environment.SEARCH_INPUT}
           value={searchText}
           onChange={(e) => onChangeSearchText?.(e.target.value)} //para o onChangeSearchText parar de dar erro, colocamos um '?.' no final 
         />
