@@ -1,3 +1,21 @@
 {
-    "peaple": []
+    "people": [
+        {
+            "id": 1,
+            "name": "Joao Victor",
+            "lastName": "Carvalho"
+        },
+
+        {
+            "id": 2,
+            "name": "Pri",
+            "lastName": "Moura"
+        },
+
+        {
+            "id": 3,
+            "name": "Karina",
+            "lastName": "Silva"
+        }
+    ]
 }
