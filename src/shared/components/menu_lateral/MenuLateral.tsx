@@ -1,9 +1,10 @@
-import { Box, Divider, Drawer, Icon, List, ListItemButton, ListItemIcon, ListItemText, useMediaQuery, useTheme, } from '@mui/material';
+import { Box, Divider, Drawer, List, ListItemButton, ListItemIcon, ListItemText, useMediaQuery, useTheme, } from '@mui/material';
 import React from 'react';
 import Avatar from '@mui/material/Avatar';
 import { useAppThemeContext, useDrawerContext,  } from '../../contexts';
 import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
-import { DarkMode } from '@mui/icons-material';
+import { DarkMode, Home } from '@mui/icons-material';
+import LocationCityIcon from '@mui/icons-material/LocationCity';
 
 interface IListItemLinkProps {
   label: string;
@@ -22,6 +23,11 @@ interface IMenuLateralProps {
     children: React.ReactNode
 }
 
+const validIcons: { [key: string]: React.ElementType } = {
+  home: Home,
+  location_city: LocationCityIcon
+};
+
 const ListItemlink:React.FC<IListItemLinkProps> = ({ to, icon, label, onClick }) =>{
 
   const navegar = useNavigate();
@@ -35,10 +41,12 @@ const ListItemlink:React.FC<IListItemLinkProps> = ({ to, icon, label, onClick })
     onClick?.(); //essa função é undefined? Se sim, não faz nada. Se não, executa
   }; //estamos fazendo isso pois queremos que, quando o usuário clique na opção de menu, ele navegue para uma outra tela. Para isso, usamos o react-router-dom. 
 
+  const IconComponent = validIcons[icon];
+
   return(
     <ListItemButton selected={!!match} onClick={handleClick}>
       <ListItemIcon>
-        <Icon>{icon}</Icon>
+        {IconComponent && <IconComponent />}
       </ListItemIcon>
       <ListItemText primary={label} />
     </ListItemButton>
