@@ -1,15 +1,15 @@
 import { createContext, useCallback, useContext, useState } from 'react';
 
 interface IDrawerOption {
-  icon: string;
   path: string;
   label: string;
+  icon: string;
 }
 
 interface IDrawerContextData {
     isDrawerOpen: boolean;
-    toggleDrawerOpen: () => void;
     drawerOptions: IDrawerOption[];
+    toggleDrawerOpen: () => void;
     setDrawerOptions: (newDrawerOptions: IDrawerOption[]) => void;
 }
 
