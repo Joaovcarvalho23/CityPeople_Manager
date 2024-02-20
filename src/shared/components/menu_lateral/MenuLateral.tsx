@@ -5,6 +5,7 @@ import { useAppThemeContext, useDrawerContext,  } from '../../contexts';
 import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
 import { DarkMode, Home } from '@mui/icons-material';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
+import GroupIcon from '@mui/icons-material/Group';
 
 interface IListItemLinkProps {
   label: string;
@@ -25,7 +26,8 @@ interface IMenuLateralProps {
 
 const validIcons: { [key: string]: React.ElementType } = {
   home: Home,
-  location_city: LocationCityIcon
+  location_city: LocationCityIcon,
+  people: GroupIcon
 };
 
 const ListItemlink:React.FC<IListItemLinkProps> = ({ to, icon, label, onClick }) =>{
