@@ -8,25 +8,30 @@ export const PeopleListing: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const search = useMemo(() => {
-    return searchParams?.get('search') || '';
+    return searchParams.get('search') || '';
   }, [searchParams]);
 
-  // useEffect(() => {
-  //   PeopleService
-  // });
+  useEffect(() => {
+    PeopleService.getAll(1, search).then((resultado) => {
+      if (resultado instanceof Error) {
+        alert(resultado.message);
+        return;
+      }
+      console.log(resultado);
+    });
+  }, [search]);
 
-  return(
+  return (
     <PageBaseLayout
       tittle='People List'
       toolsBar={
-        <ListingTools 
+        <ListingTools
           newButtonText='New'
           showSearchInput
-          onChangeSearchText={text => setSearchParams({ search: text }, {replace: true})}
-          searchText={ search } // o ?? faz praticamente a mesma coisa do ||
-        />}
-    >
-
-    </PageBaseLayout>
+          onChangeSearchText={(text) => setSearchParams({ search: text }, { replace: true })}
+          searchText={search}
+        />
+      }
+    ></PageBaseLayout>
   );
 };
