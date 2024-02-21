@@ -6,6 +6,8 @@ export const errorInterceptor = (error: AxiosError) => {
 
     
   if(error.response?.status === 401)
+  //
+  
     return Promise.reject(error);
 
 };

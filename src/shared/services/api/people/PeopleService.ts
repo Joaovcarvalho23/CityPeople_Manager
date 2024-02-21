@@ -2,21 +2,21 @@ import { Environment } from '../../../environment';
 import { Api } from '../config_axios';
 
 
-interface IPeopleListing {
+export interface IPeopleListing {
     id: number;
     fullName: string;
     cityId: number; //representa o relacionamento entre cidade e pessoa
     email: string
 } //pessoas que vão ser retornadas para a listagem de pessoas
 
-interface IPeopleDetails {
+export interface IPeopleDetails {
     id: number;
     fullName: string;
     cityId: number;
     email: string
 } //detalhes da pessoa na nossa tela de detalhe sobre ela
 
-type TTotalCountPeople = {
+type TPeopleTotalCount = {
     data: IPeopleListing[];
     totalCount: number;
 }
@@ -44,29 +44,21 @@ const getById = async (id: number): Promise<IPeopleDetails | Error> => {
 /*------------------------------------------------------- método que consulta a lista que retorna todos os usuários------------------------------------------------------------------*/
 
 
-const getAll = async (page = 1, filter = ''): Promise<TTotalCountPeople | Error> => {
-
+const getAll = async (page = 1, filter = ''): Promise<TPeopleTotalCount | Error> => {
   try {
-    const relativeURL = `/people?_page=${page}&_limit=${Environment.ROW_LIMIT}&fullName_like=${filter}`;//aqui é feita a paginação dos dados
-    const { data, headers } = await Api.get(relativeURL); //aqui é feito a consulta em si | lista de pessoas cadastradas no banco de dados
-    /*
-    O Slice adiciona os atributos _start e _end, e um header 'x-total-count' é incluído na resposta. Ou seja, toda resposta paginada,
-    uma listagem, ela trás consigo um 'total-count', que é a quantidade total de registros no banco de dados
-    */
+    const { data , headers } = await Api.get(`/people?_page=${page}&_limit=${Environment.ROW_LIMIT}`);
 
-    if(data){
-      return{
-        data, totalCount: Number(headers['x-total-count'] || Environment.ROW_LIMIT) // o totalCount é do tipo number, mas o headers é do tipo String. Dessa forma, temos que converter o headers para que ele seja um number
-        // o "|| Environment.ROW_LIMIT" serve para que, caso o Number seja 'undefined', ele não retorne um NaN
-      };
-    }
+    const filteredData = data.filter((person: IPeopleListing) => {
+      return person.fullName.toLowerCase().includes(filter.toLowerCase());
+    }); //filtrando para o campo de busca
 
-    return new Error('error when listing records');
-
+    return {
+      data: filteredData, //retorna a busca filtrada
+      totalCount: Number(headers['x-total-count'] || Environment.ROW_LIMIT)
+    };
   } catch (error) {
-
     console.error(error);
-    return new Error((error as {message: string}).message  || 'error when listing records');//estamos dizendo que esse error é um objeto que tem o atributo 'mensagem'. Se o backend não retornar uma mensagem de erro, ele retorna o 'error when listing records'
+    return new Error((error as { message: string }).message || 'error when listing records');
   }
 };
 
