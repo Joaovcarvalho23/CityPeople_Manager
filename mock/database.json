@@ -2,20 +2,30 @@
     "people": [
         {
             "id": 1,
-            "name": "Joao Victor",
-            "lastName": "Carvalho"
+            "fullName": "Joao Victor Carvalho",
+            "citiId" : 23,
+            "email": "joao.carvalho@gmail.com"
         },
 
         {
             "id": 2,
-            "name": "Pri",
-            "lastName": "Moura"
+            "fullName": "Pri Moura",
+            "citiId" : 19,
+            "email": "pri.moura@gmail.com"
         },
 
         {
             "id": 3,
-            "name": "Karina",
-            "lastName": "Silva"
+            "fullName": "Karina Silva",
+            "citiId" : 3,
+            "email": "karina.silva@gmail.com"
+        },
+
+        {
+            "id": 4,
+            "fullName": "Jose Carlos",
+            "citiId" : 77,
+            "email": "jose.carlos@gmail.com"
         }
     ]
 }
