@@ -55,7 +55,8 @@ const getAll = async (page = 1, filter = ''): Promise<TPeopleTotalCount | Error>
     return {
       data: filteredData, //retorna a busca filtrada
       totalCount: Number(headers['x-total-count'] || Environment.ROW_LIMIT)
-    };
+    }; //o erro do total-count está aqui
+
   } catch (error) {
     console.error(error);
     return new Error((error as { message: string }).message || 'error when listing records');
