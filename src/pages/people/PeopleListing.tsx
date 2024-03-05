@@ -6,6 +6,8 @@ import { IPeopleListing, PeopleService } from '../../shared/services/api/people/
 import { UseDebounce } from '../../shared/hooks';
 import { LinearProgress, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
 import { Environment } from '../../shared/environment';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 export const PeopleListing: React.FC = () => {
   const [ isLoading, setIsLoading ] = useState(true);
@@ -18,11 +20,16 @@ export const PeopleListing: React.FC = () => {
     return searchParams.get('search') || '';
   }, [searchParams]);
 
+  const page = useMemo(() => {
+    return Number(searchParams.get('page') || '1');
+  }, [searchParams]);
+
+
   useEffect(() => {
     setIsLoading(true);
 
     debounce(() => {
-      PeopleService.getAll(1, search).then((resultado) => {
+      PeopleService.getAll(page, search).then((resultado) => {
         setIsLoading(false);
       
         if (resultado instanceof Error) {
@@ -37,7 +44,7 @@ export const PeopleListing: React.FC = () => {
       
     }); //este corpo executa a consulta ao banco de dados
 
-  }, [search]);
+  }, [search, page]);
 
   return (
     <PageBaseLayout
@@ -46,7 +53,7 @@ export const PeopleListing: React.FC = () => {
         <ListingTools
           newButtonText='New'
           showSearchInput
-          onChangeSearchText={(text) => setSearchParams({ search: text }, { replace: true })}
+          onChangeSearchText={(text) => setSearchParams({ search: text, page: '1' }, { replace: true })}
           searchText={search}
         />
       }
@@ -85,12 +92,23 @@ export const PeopleListing: React.FC = () => {
                 <TableCell colSpan={3}><LinearProgress variant='indeterminate'/></TableCell>
               </TableRow>
             )}
-          </TableFooter>
 
+            {/* {(totalCount > Environment.ROW_LIMIT) && ( */}
+            <TableRow>
+              <TableCell colSpan={3}>
+
+                <Stack spacing={2}>
+                  <Pagination page={page} count={Math.ceil(totalCount / Environment.ROW_LIMIT)} variant="outlined" color="primary"
+                    onChange={(e, newPage) => setSearchParams({ search, page: newPage.toString() }, { replace: true })}
+                  />
+                </Stack>
+                  
+              </TableCell>
+            </TableRow>
+            {/* )} */}
+          </TableFooter>
         </Table>
       </TableContainer>
-
-
     </PageBaseLayout>
   );
 };

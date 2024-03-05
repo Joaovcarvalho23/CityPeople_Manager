@@ -46,13 +46,16 @@ const getById = async (id: number): Promise<IPeopleDetails | Error> => {
 
 const getAll = async (page = 1, filter = ''): Promise<TPeopleTotalCount | Error> => {
   try {
-    const { data } = await Api.get(`/people?_page=${page}&_limit=${Environment.ROW_LIMIT}`);
+    const { data, headers } = await Api.get(`/people?_page=${page}&_limit=${Environment.ROW_LIMIT}`);
 
     const filteredData = data.filter((person: IPeopleListing) => {
       return person.fullName.toLowerCase().includes(filter.toLowerCase());
     }); //filtrando para o campo de busca
 
-    const totalCount = filteredData.length;
+    const totalCount = Number(headers['x-total-count']);
+    // const totalCount = Number(headers['x-total-count'] || Environment.ROW_LIMIT);
+    // const totalCount = filteredData.lenght;
+
 
     return {
       data: filteredData, //retorna a busca filtrada
