@@ -26,6 +26,20 @@
             "fullName": "Jose Carlos",
             "citiId" : 77,
             "email": "jose.carlos@gmail.com"
+        },
+
+        {
+            "id": 5,
+            "fullName": "Levi Cordeiro",
+            "citiId" : 50,
+            "email": "levi.cordeiro@gmail.com"
+        },
+
+        {
+            "id": 6,
+            "fullName": "Marina Carvalho",
+            "citiId" : 9,
+            "email": "marina.carvalho@gmail.com"
         }
     ]
 }
