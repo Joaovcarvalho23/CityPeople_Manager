@@ -92,23 +92,17 @@ export const PeopleListing: React.FC = () => {
                 <TableCell colSpan={3}><LinearProgress variant='indeterminate'/></TableCell>
               </TableRow>
             )}
-
-            {/* {(totalCount > Environment.ROW_LIMIT) && ( */}
-            <TableRow>
-              <TableCell colSpan={3}>
-
-                <Stack spacing={2}>
-                  <Pagination page={page} count={Math.ceil(totalCount / Environment.ROW_LIMIT)} variant="outlined" color="primary"
-                    onChange={(e, newPage) => setSearchParams({ search, page: newPage.toString() }, { replace: true })}
-                  />
-                </Stack>
-                  
-              </TableCell>
-            </TableRow>
-            {/* )} */}
           </TableFooter>
+          
         </Table>
       </TableContainer>
+
+      <Stack spacing={2}>
+        <Pagination page={page} count={Math.ceil(totalCount / Environment.ROW_LIMIT)} variant="outlined" color="primary"
+          onChange={(e, newPage) => setSearchParams({ search, page: newPage.toString() }, { replace: true })}
+        />
+      </Stack>
+
     </PageBaseLayout>
   );
 };

@@ -12,7 +12,7 @@ export const Environment = {
   /**
    * Define a quantidade de linhas a ser carregada por padrão nas listagens
    */
-  ROW_LIMIT: 12,
+  ROW_LIMIT: 4,
 
   /**
    * Texto exibido quando nenhum registro é encontrado

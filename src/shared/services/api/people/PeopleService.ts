@@ -54,8 +54,6 @@ const getAll = async (page = 1, filter = ''): Promise<TPeopleTotalCount | Error>
 
     const totalCount = Number(headers['x-total-count']);
     // const totalCount = Number(headers['x-total-count'] || Environment.ROW_LIMIT);
-    // const totalCount = filteredData.lenght;
-
 
     return {
       data: filteredData, //retorna a busca filtrada
