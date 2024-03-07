@@ -4,10 +4,12 @@ import { ListingTools } from '../../shared/components';
 import { useSearchParams } from 'react-router-dom';
 import { IPeopleListing, PeopleService } from '../../shared/services/api/people/PeopleService';
 import { UseDebounce } from '../../shared/hooks';
-import { LinearProgress, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
+import { IconButton, LinearProgress, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
 import { Environment } from '../../shared/environment';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import DriveFileRenameOutlineTwoToneIcon from '@mui/icons-material/DriveFileRenameOutlineTwoTone';
+import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 
 export const PeopleListing: React.FC = () => {
   const [ isLoading, setIsLoading ] = useState(true);
@@ -23,6 +25,24 @@ export const PeopleListing: React.FC = () => {
   const page = useMemo(() => {
     return Number(searchParams.get('page') || '1');
   }, [searchParams]);
+
+  const deleteHandle = (id: number, fullName: string) => {
+    if(confirm(`Do you really wants to delete user "${fullName}"?`)){
+      PeopleService.deleteById(id)
+        .then(resultado => {
+          if(resultado instanceof Error) {
+            alert(resultado.message);
+          } else{
+            setRows(oldRows => {
+              return [
+                ...oldRows.filter(oldRow => oldRow.id !== id),
+              ];
+            });
+            alert('User has been removed successfuly!');
+          }
+        });
+    }
+  };
 
 
   useEffect(() => {
@@ -77,7 +97,14 @@ export const PeopleListing: React.FC = () => {
               <TableRow key={row.id}>
                 <TableCell>{row.fullName}</TableCell>
                 <TableCell>{row.email}</TableCell>
-                <TableCell>Actions</TableCell>
+                <TableCell>
+                  <IconButton size='small'>
+                    <DriveFileRenameOutlineTwoToneIcon/>
+                  </IconButton>
+                  <IconButton size='small' onClick={() => deleteHandle(row.id, row.fullName)}>
+                    <DeleteTwoToneIcon/>
+                  </IconButton>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
