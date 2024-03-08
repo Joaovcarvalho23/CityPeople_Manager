@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { PageBaseLayout } from '../../shared/layouts';
 import { ListingTools } from '../../shared/components';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { IPeopleListing, PeopleService } from '../../shared/services/api/people/PeopleService';
 import { UseDebounce } from '../../shared/hooks';
 import { IconButton, LinearProgress, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
@@ -17,6 +17,7 @@ export const PeopleListing: React.FC = () => {
   const { debounce } = UseDebounce(); //ele vai executar o UseDebounce
   const [ rows, setRows ] = useState<IPeopleListing[]>([]);
   const [ totalCount, setTotalCount ] = useState(0);
+  const navigate = useNavigate();
 
   const search = useMemo(() => {
     return searchParams.get('search') || '';
@@ -32,10 +33,15 @@ export const PeopleListing: React.FC = () => {
         .then(resultado => {
           if(resultado instanceof Error) {
             alert(resultado.message);
-          } else{
-            setRows(oldRows => {
+
+          } else{           //lógica para remover registro da nossa listagem atual
+            setRows(oldRows => { //oldRows é o nosso state atual
               return [
                 ...oldRows.filter(oldRow => oldRow.id !== id),
+                /*
+                no filter vamos passar uma função para filtrar um registro para nós.
+                Aqui estamos retornando um novo state com todas as linhas do state anterior, mas vamos retornar todas as linhas que o id é diferente do id que estamos apagando 
+                */
               ];
             });
             alert('User has been removed successfuly!');
@@ -98,7 +104,7 @@ export const PeopleListing: React.FC = () => {
                 <TableCell>{row.fullName}</TableCell>
                 <TableCell>{row.email}</TableCell>
                 <TableCell>
-                  <IconButton size='small'>
+                  <IconButton size='small' onClick={() => navigate(`/people/details/${row.id}`)}>
                     <DriveFileRenameOutlineTwoToneIcon/>
                   </IconButton>
                   <IconButton size='small' onClick={() => deleteHandle(row.id, row.fullName)}>
