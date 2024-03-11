@@ -78,6 +78,7 @@ export const PeopleListing: React.FC = () => {
       toolsBar={
         <ListingTools
           newButtonText='New'
+          onPressedNewButton={() => navigate('/people/details/new')}
           showSearchInput
           onChangeSearchText={(text) => setSearchParams({ search: text, page: '1' }, { replace: true })}
           searchText={search}
