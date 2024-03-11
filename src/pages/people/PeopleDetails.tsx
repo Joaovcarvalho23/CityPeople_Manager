@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PageBaseLayout } from '../../shared/layouts';
 import { DetailTools } from '../../shared/components';
+import { PeopleService } from '../../shared/services/api/people/PeopleService';
+import { LinearProgress } from '@mui/material';
 
 // type Test = 'id' | 'name' | 'description'
 
@@ -11,17 +13,52 @@ import { DetailTools } from '../../shared/components';
 export const PeopleDetails: React.FC = () => {
   const navigate = useNavigate(); 
   const {id = 'new'} = useParams<'id'>();
-  
-  const handleSave = () => {
+  const [ isLoading, setIsLoading ] = useState(false);
+  const [ name, setName ] = useState('');
+
+  useEffect(() => {
+
+    if(id !== 'new') {
+      setIsLoading(true);
+
+      PeopleService.getById(Number(id)).then((resultdo) => {
+
+        setIsLoading(false);
+        if(resultdo instanceof Error) {
+          alert(resultdo.message);
+          navigate('/people');
+
+        } else {
+          setName(resultdo.fullName);
+          console.log(resultdo);
+        }
+      });
+    }
+  }, [id]);
+
+
+  const saveHandle = () => {
     console.log('Save');
   };
 
-  const handleDelete = () => {
-    console.log('Delete');
+  const deleteHandle = (id: number, fullName: string) => {
+    if(confirm(`Do you really wants to delete user "${fullName}"?`)){
+      PeopleService.deleteById(id)
+        .then(resultado => {
+          if(resultado instanceof Error) {
+            alert(resultado.message);
+
+          } else{
+            alert('User has been removed successfuly!');
+            navigate('/people');
+          }
+        });
+    }
   };
 
+
   return(
-    <PageBaseLayout tittle='User Details'
+    <PageBaseLayout tittle={id === 'new' ? 'New User' : name}
       toolsBar={
         <DetailTools 
           showNewButton = {id !== 'new'}
@@ -29,14 +66,18 @@ export const PeopleDetails: React.FC = () => {
           showDeleteButton = {id !== 'new'}
           showSaveAndExitButton
 
-          whenSaveIsPressed={ handleSave }
-          whenSaveAndExitIsPressed={ handleSave }
-          whenDeleteIsPressed={ handleDelete }
-          whenBackIsPressed={() => navigate('/people')}
           whenNewIsPressed={() => navigate('/people/details/new')}
+          whenDeleteIsPressed={() => deleteHandle(Number(id), name) }
+          whenBackIsPressed={() => navigate('/people')}
+          whenSaveIsPressed={ saveHandle }
+          whenSaveAndExitIsPressed={ saveHandle }
         />
       }
     >
+
+      {isLoading && (
+        <LinearProgress variant='indeterminate'/>
+      )}
 
       <p>People Details {id}</p>
     </PageBaseLayout>
