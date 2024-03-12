@@ -4,6 +4,8 @@ import { PageBaseLayout } from '../../shared/layouts';
 import { DetailTools } from '../../shared/components';
 import { PeopleService } from '../../shared/services/api/people/PeopleService';
 import { LinearProgress } from '@mui/material';
+import { Form } from '@unform/web';
+import { VTextField } from '../../shared/forms';
 
 // type Test = 'id' | 'name' | 'description'
 
@@ -74,12 +76,18 @@ export const PeopleDetails: React.FC = () => {
         />
       }
     >
-
       {isLoading && (
         <LinearProgress variant='indeterminate'/>
       )}
 
-      <p>People Details {id}</p>
+      <Form onSubmit={(data) => console.log(data)} placeholder={undefined}>
+        <VTextField name='fullName' 
+          
+        />
+
+        <button type='submit'>Submit</button>
+      </Form>
+
     </PageBaseLayout>
   );
 };
