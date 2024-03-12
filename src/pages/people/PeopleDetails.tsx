@@ -81,9 +81,10 @@ export const PeopleDetails: React.FC = () => {
       )}
 
       <Form onSubmit={(data) => console.log(data)} placeholder={undefined}>
-        <VTextField name='fullName' 
-          
-        />
+        
+        <VTextField name='fullName'/>
+        <VTextField name='cityId'/>
+        <VTextField name='email'/>
 
         <button type='submit'>Submit</button>
       </Form>
