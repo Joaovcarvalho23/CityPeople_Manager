@@ -47,6 +47,12 @@
       "fullName": "Diana Carvalho",
       "citiId": 43,
       "email": "diana.carvalho@gmail.com"
+    },
+    {
+      "id": 12,
+      "fullName": "Ronaldo",
+      "email": "ronaldo@gmail.com",
+      "cityId": "88"
     }
   ]
 }

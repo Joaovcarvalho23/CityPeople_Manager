@@ -36,6 +36,8 @@ export const PeopleDetails: React.FC = () => {
         } else {
           setName(resultdo.fullName);
           console.log(resultdo);
+
+          formRef.current?.setData(resultdo);
         }
       });
     }
@@ -44,6 +46,33 @@ export const PeopleDetails: React.FC = () => {
 
   const saveHandle = (data: IFormData) => {
     console.log(data);
+
+    setIsLoading(true);
+
+    if(id === 'new'){
+
+      PeopleService.create(data)
+        .then((resultado) => {
+          setIsLoading(true);
+
+          if(resultado instanceof Error){
+            alert(resultado.message);
+          } else{
+            navigate(`/people/details/${resultado}`);
+          }
+        });
+
+    } else{
+
+      PeopleService.updateById({id: Number(id), ...data}, Number(id))
+        .then((resultado) => {
+          setIsLoading(true);
+          
+          if(resultado instanceof Error){
+            alert(resultado.message);
+          }
+        });
+    }
   };
 
   const deleteHandle = (id: number, fullName: string) => {
@@ -79,22 +108,28 @@ export const PeopleDetails: React.FC = () => {
         />
       }
     >
+
       {isLoading && (
         <LinearProgress variant='indeterminate'/>
       )}
 
       {/* passamos o saveHandle dentro do onSubmit, pois quando alteramos o onSubmit do formulário, queremos que os dados que o unform vai estar entregando para nós, vão para o saveHandle.
       Dessa forma, podemos tratar toda a parte de salvar no banco de dados e fazer outras operações */}
+      {/* nos permite pegar a referênca do nosso componente de formulário e deixar ela armazenada dentro desse formRef. Com isso, conseguimos dar um submit manual
+      do formulário através do nosso componente da listing_tools */}
       <Form ref={formRef} onSubmit={saveHandle} placeholder={undefined}>
+        <VTextField placeholder='Full Name' name='fullName'/>
+        <VTextField placeholder='Email' name='email'/>
+        <VTextField placeholder='City Id' name='cityId'/>
+      </Form>
 
-        {/* nos permite pegar a referênca do nosso componente de formulário e deixar ela armazenada dentro desse formRef. Com isso, conseguimos dar um submit manual
-        do formulário através do nosso componente da listing_tools */}
-        
+      {/* <Form ref={formRef} onSubmit={saveHandle} placeholder={undefined}>
+
         <VTextField name='fullName'/>
         <VTextField name='email'/>
         <VTextField name='cityId'/>
 
-        {/* {[1, 2].map((_, index) => (
+        {[1, 2].map((_, index) => (
           <>
             <VTextField name={`address[${index}].street`}/>
             <VTextField name={`address[${index}].number`}/>
@@ -103,12 +138,10 @@ export const PeopleDetails: React.FC = () => {
             <VTextField name={`address[${index}].country`}/>
           
           </>
-        ))} */}
-        
-
+        ))}
 
         <button type='submit'>Submit</button>
-      </Form>
+      </Form> */}
 
     </PageBaseLayout>
   );
