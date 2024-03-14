@@ -33,6 +33,6 @@
         ],
         "react/prop-types": "off",
         "react/react-in-jsx-scope": "off",
-        "react/no-children-prop": "on"
+        "react/no-children-prop": "warn"
     }
 }
