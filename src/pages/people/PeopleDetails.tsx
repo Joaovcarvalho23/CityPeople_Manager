@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { PageBaseLayout } from '../../shared/layouts';
 import { DetailTools } from '../../shared/components';
 import { PeopleService } from '../../shared/services/api/people/PeopleService';
-import { LinearProgress } from '@mui/material';
+import { Box, Grid, LinearProgress, Paper, Typography } from '@mui/material';
 import { Form } from '@unform/web';
 import { VTextField } from '../../shared/forms';
 import { FormHandles } from '@unform/core';
@@ -117,10 +117,45 @@ export const PeopleDetails: React.FC = () => {
       Dessa forma, podemos tratar toda a parte de salvar no banco de dados e fazer outras operações */}
       {/* nos permite pegar a referênca do nosso componente de formulário e deixar ela armazenada dentro desse formRef. Com isso, conseguimos dar um submit manual
       do formulário através do nosso componente da listing_tools */}
+
       <Form ref={formRef} onSubmit={saveHandle} placeholder={undefined}>
-        <VTextField placeholder='Full Name' name='fullName'/>
-        <VTextField placeholder='Email' name='email'/>
-        <VTextField placeholder='City Id' name='cityId'/>
+        {/* <Box margin={1} display="flex" flexDirection="column" component={Paper}> */}
+        <Box margin={1} display="flex" flexDirection="column">
+          
+          <Grid container direction="column" spacing={1}>
+            {/* <Grid container direction="column" padding={3}> */}
+
+            {isLoading && (
+              <Grid item>
+                <LinearProgress variant='indeterminate'/>
+              </Grid>
+            )}
+
+            <Grid item>
+              <Typography variant='h5'>User Informations</Typography>
+            </Grid>
+
+            <Grid container item direction="row">
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                <VTextField placeholder='Full Name' name='fullName' fullWidth disabled={isLoading}/>
+              </Grid>
+            </Grid>
+            
+            <Grid container item direction="row">
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                <VTextField placeholder='Email' name='email' fullWidth disabled={isLoading}/>
+              </Grid>
+            </Grid>
+            
+            <Grid container item direction="row">
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                <VTextField placeholder='City Id' name='cityId' fullWidth disabled={isLoading}/>
+              </Grid>
+            </Grid>
+
+          </Grid>
+        
+        </Box>
       </Form>
 
       {/* <Form ref={formRef} onSubmit={saveHandle} placeholder={undefined}>
