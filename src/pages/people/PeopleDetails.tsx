@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { PageBaseLayout } from '../../shared/layouts';
 import { DetailTools } from '../../shared/components';
 import { PeopleService } from '../../shared/services/api/people/PeopleService';
-import { Box, Grid, LinearProgress, Paper, Typography } from '@mui/material';
+import { Box, Grid, LinearProgress, Typography } from '@mui/material';
 import { Form } from '@unform/web';
 import { VTextField } from '../../shared/forms';
 import { FormHandles } from '@unform/core';
@@ -137,19 +137,21 @@ export const PeopleDetails: React.FC = () => {
 
             <Grid container item direction="row">
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <VTextField placeholder='Full Name' name='fullName' fullWidth disabled={isLoading}/>
+                <VTextField label='Full Name' name='fullName' fullWidth disabled={isLoading}
+                  onChange={(e) => setName(e.target.value)}
+                />
               </Grid>
             </Grid>
             
             <Grid container item direction="row">
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <VTextField placeholder='Email' name='email' fullWidth disabled={isLoading}/>
+                <VTextField label='Email' name='email' fullWidth disabled={isLoading}/>
               </Grid>
             </Grid>
             
             <Grid container item direction="row">
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <VTextField placeholder='City Id' name='cityId' fullWidth disabled={isLoading}/>
+                <VTextField label='City' name='cityId' fullWidth disabled={isLoading}/>
               </Grid>
             </Grid>
 
