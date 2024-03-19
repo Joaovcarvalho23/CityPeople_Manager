@@ -95,8 +95,8 @@ export const PeopleDetails: React.FC = () => {
     <PageBaseLayout tittle={id === 'new' ? 'New User' : name}
       toolsBar={
         <DetailTools 
-          showNewButton = {id !== 'new'}
-          newButtonText='New'
+          // showNewButton = {id !== 'new'}
+          // newButtonText='New'
           showDeleteButton = {id !== 'new'}
           showSaveAndExitButton
 

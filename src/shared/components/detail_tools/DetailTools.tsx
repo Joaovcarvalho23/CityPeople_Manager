@@ -28,7 +28,7 @@ interface IDetailToolsProps {
 }
 
 export const DetailTools: React.FC<IDetailToolsProps> = ({ 
-  newButtonText= 'New', showNewButton = true, showBackButton = true,
+  newButtonText= 'New', showNewButton = false, showBackButton = true,
   showDeleteButton = true, showSaveButton = true,
   showSaveAndExitButton = false,
 
