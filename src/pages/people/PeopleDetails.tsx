@@ -4,9 +4,9 @@ import { PageBaseLayout } from '../../shared/layouts';
 import { DetailTools } from '../../shared/components';
 import { PeopleService } from '../../shared/services/api/people/PeopleService';
 import { Box, Grid, LinearProgress, Typography } from '@mui/material';
-import { Form } from '@unform/web';
-import { VTextField } from '../../shared/forms';
+import { VTextField, VForm } from '../../shared/forms';
 import { FormHandles } from '@unform/core';
+
 
 interface IFormData {
   fullName: string,
@@ -118,7 +118,7 @@ export const PeopleDetails: React.FC = () => {
       {/* nos permite pegar a referênca do nosso componente de formulário e deixar ela armazenada dentro desse formRef. Com isso, conseguimos dar um submit manual
       do formulário através do nosso componente da listing_tools */}
 
-      <Form ref={formRef} onSubmit={saveHandle} placeholder={undefined}>
+      <VForm ref={formRef} onSubmit={saveHandle} placeholder={undefined}>
         {/* <Box margin={1} display="flex" flexDirection="column" component={Paper}> */}
         <Box margin={1} display="flex" flexDirection="column">
           
@@ -158,7 +158,7 @@ export const PeopleDetails: React.FC = () => {
           </Grid>
         
         </Box>
-      </Form>
+      </VForm>
 
       {/* <Form ref={formRef} onSubmit={saveHandle} placeholder={undefined}>
 
