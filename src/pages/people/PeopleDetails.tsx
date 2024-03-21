@@ -15,7 +15,7 @@ interface IFormData {
 }
 
 export const PeopleDetails: React.FC = () => {
-  const { formRef } = useVForm();
+  const { formRef, save, saveAndExit, isSaveAndExit } = useVForm();
 
   const navigate = useNavigate(); 
   const {id = 'new'} = useParams<'id'>();
@@ -59,7 +59,13 @@ export const PeopleDetails: React.FC = () => {
           if(resultado instanceof Error){
             alert(resultado.message);
           } else{
-            navigate(`/people/details/${resultado}`);
+            if(isSaveAndExit()){
+
+              navigate('/people');
+
+            }else{
+              navigate(`/people/details/${resultado}`);
+            }
           }
         });
 
@@ -71,6 +77,11 @@ export const PeopleDetails: React.FC = () => {
           
           if(resultado instanceof Error){
             alert(resultado.message);
+
+          } else {
+            if(isSaveAndExit()){
+              navigate('/people');
+            }
           }
         });
     }
@@ -104,8 +115,8 @@ export const PeopleDetails: React.FC = () => {
           whenNewIsPressed={() => navigate('/people/details/new')}
           whenDeleteIsPressed={() => deleteHandle(Number(id), name) }
           whenBackIsPressed={() => navigate('/people')}
-          whenSaveIsPressed={ () => formRef.current?.submitForm() } //esse submitForm permite que a gente consiga fazer o submit do formulário que está fora do nosso Form
-          whenSaveAndExitIsPressed={ () => formRef.current?.submitForm() }
+          whenSaveIsPressed={ save } //esse submitForm permite que a gente consiga fazer o submit do formulário que está fora do nosso Form
+          whenSaveAndExitIsPressed={ saveAndExit }
         />
       }
     >
@@ -119,7 +130,7 @@ export const PeopleDetails: React.FC = () => {
       {/* nos permite pegar a referênca do nosso componente de formulário e deixar ela armazenada dentro desse formRef. Com isso, conseguimos dar um submit manual
       do formulário através do nosso componente da listing_tools */}
 
-      <VForm ref={formRef} onSubmit={saveHandle} placeholder={undefined}>
+      <VForm ref={formRef} onSubmit={saveHandle} placeholder={undefined}> 
         {/* <Box margin={1} display="flex" flexDirection="column" component={Paper}> */}
         <Box margin={1} display="flex" flexDirection="column">
           

@@ -4,26 +4,26 @@ import { useCallback, useRef } from 'react';
 export const useVForm = () => {
   const formRef = useRef<FormHandles>(null);
   const isSavingAndNew = useRef(false);
-  const isSavingAndClose = useRef(false);
+  const isSavingAndExit = useRef(false);
 
 
   //essas funções serão responsáveis pelo salvamento/execução de salvar formulário
   const saveHandle = useCallback(() => {
-    isSavingAndClose.current = false;
-    isSavingAndNew.current = false;
-    formRef.current?.submitForm();
+    isSavingAndExit.current = false; //não queremos fechar a tela
+    isSavingAndNew.current = false; //não queremos navegar para a tela de 'New'
+    formRef.current?.submitForm(); //quando nós damos o submitForm, o VForm do PeopleDetails.tsx executa o onSubmit, passando os dados do formulário para o saveHandle do PeopleDetails.tsx
   }, []);
 
 
   const saveAndNewHandle = useCallback(() => {
-    isSavingAndClose.current = false;
+    isSavingAndExit.current = false;
     isSavingAndNew.current = true;
     formRef.current?.submitForm();
   }, []);
 
 
-  const saveAndCloseHandle = useCallback(() => {
-    isSavingAndClose.current = true;
+  const saveAndExitHandle = useCallback(() => {
+    isSavingAndExit.current = true;
     isSavingAndNew.current = false;
     formRef.current?.submitForm();
   }, []);
@@ -35,11 +35,11 @@ export const useVForm = () => {
   }, []);
 
 
-  const isSaveAndCloseHandle = useCallback(() => {
-    return isSavingAndClose.current;
+  const isSaveAndExitHandle = useCallback(() => {
+    return isSavingAndExit.current;
   }, []);
 
 
-  return{ formRef, save: saveHandle, saveAndClose: saveAndCloseHandle, saveAndNew: saveAndNewHandle, isSaveAndClose: isSaveAndCloseHandle, isSaveAndNew: isSaveAndNewHandle };
+  return{ formRef, save: saveHandle, saveAndExit: saveAndExitHandle, saveAndNew: saveAndNewHandle, isSaveAndExit: isSaveAndExitHandle, isSaveAndNew: isSaveAndNewHandle };
 
 };
