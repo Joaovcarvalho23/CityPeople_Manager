@@ -6,6 +6,7 @@ import { PeopleService } from '../../shared/services/api/people/PeopleService';
 import { Box, Grid, LinearProgress, Typography } from '@mui/material';
 import { VTextField, VForm } from '../../shared/forms';
 import { useVForm } from '../../shared/forms';
+import * as yup from 'yup';
 
 
 interface IFormData {
@@ -13,6 +14,12 @@ interface IFormData {
   email: string,
   cityId: number
 }
+
+const schemaFormValidator: yup.Schema<IFormData> = yup.object().shape({
+  fullName: yup.string().required().min(3),
+  email: yup.string().required().email(),
+  cityId: yup.number().required()
+});
 
 export const PeopleDetails: React.FC = () => {
   const { formRef, save, saveAndExit, isSaveAndExit } = useVForm();
