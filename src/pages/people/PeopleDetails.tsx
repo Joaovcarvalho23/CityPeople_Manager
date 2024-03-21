@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PageBaseLayout } from '../../shared/layouts';
 import { DetailTools } from '../../shared/components';
 import { PeopleService } from '../../shared/services/api/people/PeopleService';
 import { Box, Grid, LinearProgress, Typography } from '@mui/material';
 import { VTextField, VForm } from '../../shared/forms';
-import { FormHandles } from '@unform/core';
+import { useVForm } from '../../shared/forms';
 
 
 interface IFormData {
@@ -15,7 +15,8 @@ interface IFormData {
 }
 
 export const PeopleDetails: React.FC = () => {
-  const formRef = useRef<FormHandles>(null);
+  const { formRef } = useVForm();
+
   const navigate = useNavigate(); 
   const {id = 'new'} = useParams<'id'>();
   const [ isLoading, setIsLoading ] = useState(false);
