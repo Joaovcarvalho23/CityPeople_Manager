@@ -4,7 +4,7 @@ import { PageBaseLayout } from '../../shared/layouts';
 import { DetailTools } from '../../shared/components';
 import { PeopleService } from '../../shared/services/api/people/PeopleService';
 import { Box, Grid, LinearProgress, Typography } from '@mui/material';
-import { VTextField, VForm } from '../../shared/forms';
+import { VTextField, VForm, IVFormErrors } from '../../shared/forms';
 import { useVForm } from '../../shared/forms';
 import * as yup from 'yup';
 
@@ -16,9 +16,9 @@ interface IFormData {
 }
 
 const schemaFormValidator: yup.Schema<IFormData> = yup.object().shape({
-  fullName: yup.string().required().min(3),
-  email: yup.string().required().email(),
-  cityId: yup.number().required()
+  fullName: yup.string().required('The Field "Full Name must be required"').min(3, 'Field must have at least 3 characters'),
+  email: yup.string().required().email('Register with an valid email'),
+  cityId: yup.number().required('Field must be a number')
 });
 
 export const PeopleDetails: React.FC = () => {
@@ -55,43 +55,61 @@ export const PeopleDetails: React.FC = () => {
   const saveHandle = (data: IFormData) => {
     console.log(data);
 
-    setIsLoading(true);
+    schemaFormValidator.validate(data, { abortEarly: false }) //Com o abortEarly ele valida todos os campos de uma vez e mostra o erro para todos eles
+      .then((validatedData) => {
+        
+        setIsLoading(true);
 
-    if(id === 'new'){
+        if(id === 'new'){
+    
+          PeopleService.create(validatedData)
+            .then((resultado) => {
+              setIsLoading(true);
+    
+              if(resultado instanceof Error){
+                alert(resultado.message);
+              } else{
+                if(isSaveAndExit()){
+    
+                  navigate('/people');
+    
+                }else{
+                  navigate(`/people/details/${resultado}`);
+                }
+              }
+            });
+    
+        } else{
+    
+          PeopleService.updateById({id: Number(id), ...validatedData}, Number(id))
+            .then((resultado) => {
+              setIsLoading(true);
+              
+              if(resultado instanceof Error){
+                alert(resultado.message);
+    
+              } else {
+                if(isSaveAndExit()){
+                  navigate('/people');
+                }
+              }
+            });
+        }
+      })
+      .catch((e: yup.ValidationError) => {
+        const validationErros:  IVFormErrors = {}; //o validationError é um objeto, e dentro desse objeto podemos ter vários atributos, mas ainda não sabemos quais são os nomes desses atributos. Mas sabemos que qualquer atributo que tivermos, ele vai ter uma chave string, e o valor também vai ser string.
+        
+        e.inner.forEach(error => {
+          if(!error.path) return;
 
-      PeopleService.create(data)
-        .then((resultado) => {
-          setIsLoading(true);
-
-          if(resultado instanceof Error){
-            alert(resultado.message);
-          } else{
-            if(isSaveAndExit()){
-
-              navigate('/people');
-
-            }else{
-              navigate(`/people/details/${resultado}`);
-            }
-          }
+          validationErros[error.path] = error.message;
         });
 
-    } else{
+        console.log(validationErros);
+        formRef.current?.setErrors(validationErros);
+      });
 
-      PeopleService.updateById({id: Number(id), ...data}, Number(id))
-        .then((resultado) => {
-          setIsLoading(true);
-          
-          if(resultado instanceof Error){
-            alert(resultado.message);
 
-          } else {
-            if(isSaveAndExit()){
-              navigate('/people');
-            }
-          }
-        });
-    }
   };
 
   const deleteHandle = (id: number, fullName: string) => {
