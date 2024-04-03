@@ -62,9 +62,9 @@
     },
     {
       "id": 14,
-      "fullName": "outro testeeee",
+      "cityId": 16,
       "email": "a@gmail.com",
-      "cityId": "16"
+      "fullName": "Ola"
     }
   ]
 }

@@ -4,25 +4,18 @@ import { Api } from '../config_axios';
 
 export interface ICityListing {
     id: number;
-    fullName: string;
-    cityId: number; //representa o relacionamento entre cidade e pessoa
-    email: string
-} //pessoas que vão ser retornadas para a listagem de pessoas
+    name: string;
+}
 
 export interface ICityDetails {
-    id: number;
-    fullName: string;
-    cityId: number;
-    email: string
-} //detalhes da pessoa na nossa tela de detalhe sobre ela
+  id: number;
+  name: string;
+} 
 
 type TCityTotalCount = {
     data: ICityListing[];
     totalCount: number;
 }
-
-
-/*------------------------------------------------------- método que consulta por um Id específico passado como parâmetro------------------------------------------------------*/
 
 
 const getById = async (id: number): Promise<ICityDetails | Error> => {
@@ -41,23 +34,19 @@ const getById = async (id: number): Promise<ICityDetails | Error> => {
 };
 
 
-/*------------------------------------------------------- método que consulta a lista que retorna todos os usuários------------------------------------------------------------------*/
-
-
 const getAll = async (page = 1, filter = ''): Promise<TCityTotalCount | Error> => {
   try {
     const { data, headers } = await Api.get(`/city?_page=${page}&_limit=${Environment.ROW_LIMIT}`);
 
-    const filteredData = data.filter((person: ICityListing) => {
-      return person.fullName.toLowerCase().includes(filter.toLowerCase());
-    }); //filtrando para o campo de busca
+    const filteredData = data.filter((citySelected: ICityListing) => {
+      return citySelected.name.toLowerCase().includes(filter.toLowerCase());
+    });
 
     const totalCount = Number(headers['x-total-count']);
-    // const totalCount = Number(headers['x-total-count'] || Environment.ROW_LIMIT);
 
     return {
-      data: filteredData, //retorna a busca filtrada
-      totalCount: totalCount //retorna o total de elementos no array
+      data: filteredData,
+      totalCount: totalCount
     };
 
   } catch (error) {
@@ -67,29 +56,21 @@ const getAll = async (page = 1, filter = ''): Promise<TCityTotalCount | Error> =
 };
 
 
-/*------------------------------------------------------- método de criar um novo usuário ----------------------------------------------------------------------------*/
+const create = async (information: Omit<ICityDetails, 'id'>): Promise<number | Error> => {
 
-
-const create = async (information: Omit<ICityDetails, 'id'>): Promise<number | Error> => { //O Omit serve para que o atributo 'id' não seja exibido. Não faz sentido exibir o Id enquanto criamos
-  /*
-    será number ou error pois normalmente quando cadastramos um novo registro no banco de dados, a resposta vai ser sempre o Id do registro que foi criado.
-*/
   try {
-    const { data } = await Api.post<ICityDetails>('/city', information); //o json-server sempre vai retornar uma pessoa inteira. Quando passamos o <IPeopleDetails>, nós conseguimos dizer qual é o tipo do dado que ele está retornando no post.
+    const { data } = await Api.post<ICityDetails>('/city', information);
 
     if(data)
-      return data.id; //a resposta que vamos dar para quem chamou o create será apenas o Id. Não precisamos devolver todos os dados para ele.
+      return data.id;
 
-    return new Error('error when creating user');
+    return new Error('error when creating register');
 
   } catch (error) {
     console.error(error);
-    return new Error((error as {message: string}).message || 'error when creating user');
+    return new Error((error as {message: string}).message || 'error when creating register');
   }
 };
-
-
-/*------------------------------------------------------- método de excluir um usuário pelo Id ----------------------------------------------------------------------------*/
 
 
 const deleteById = async (id: number): Promise<void | Error> => {
@@ -99,12 +80,9 @@ const deleteById = async (id: number): Promise<void | Error> => {
             
   } catch (error) {
     console.error(error);
-    return new Error((error as {message: string}).message  || 'error when delete user by id');
+    return new Error((error as {message: string}).message  || 'error when delete city by id');
   }
 };
-
-
-/*------------------------------------------------------- método de atualizar um  usuário pelo Id ----------------------------------------------------------------------------*/
 
 
 const updateById = async (information: ICityDetails, id: number): Promise<void | Error> => {
@@ -114,7 +92,7 @@ const updateById = async (information: ICityDetails, id: number): Promise<void |
         
   } catch (error) {
     console.error(error);
-    return new Error((error as {message: string}).message  || 'error when update user by id');
+    return new Error((error as {message: string}).message  || 'error when update city by id');
   }
 };
 
