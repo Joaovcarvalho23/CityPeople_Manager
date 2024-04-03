@@ -26,7 +26,7 @@ interface IMenuLateralProps {
 
 const validIcons: { [key: string]: React.ElementType } = {
   home: Home,
-  location_city: LocationCityIcon,
+  city_icon: LocationCityIcon,
   people: GroupIcon
 };
 
