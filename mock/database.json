@@ -66,5 +66,15 @@
       "email": "a@gmail.com",
       "fullName": "Ola"
     }
+  ],
+  "city": [
+    {
+      "name": "Recife",
+      "id": 1
+    },
+    {
+      "name": "Olinda",
+      "id": 2
+    }
   ]
 }

@@ -34,18 +34,18 @@ export const PeopleDetails: React.FC = () => {
     if(id !== 'new') {
       setIsLoading(true);
 
-      PeopleService.getById(Number(id)).then((resultdo) => {
+      PeopleService.getById(Number(id)).then((resultado) => {
 
         setIsLoading(false);
-        if(resultdo instanceof Error) {
-          alert(resultdo.message);
+        if(resultado instanceof Error) {
+          alert(resultado.message);
           navigate('/people');
 
         } else {
-          setName(resultdo.fullName);
-          console.log(resultdo);
+          setName(resultado.fullName);
+          console.log(resultado);
 
-          formRef.current?.setData(resultdo);
+          formRef.current?.setData(resultado);
         }
       });
     }

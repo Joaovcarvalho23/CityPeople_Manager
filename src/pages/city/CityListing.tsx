@@ -89,7 +89,8 @@ export const CityListing: React.FC = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell><strong>City`s Name</strong></TableCell>
+              <TableCell width={200}><strong>City`s Name</strong></TableCell>
+              <TableCell><strong>Actions</strong></TableCell>
             </TableRow>
           </TableHead>
 
