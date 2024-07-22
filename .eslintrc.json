@@ -27,10 +27,7 @@
             "error",
             "single"
         ],
-        "semi": [
-            "error",
-            "always"
-        ],
+        "semi": 0,
         "react/prop-types": "off",
         "react/react-in-jsx-scope": "off",
         "react/no-children-prop": "warn"
